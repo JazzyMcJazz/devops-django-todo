@@ -9,7 +9,14 @@
 <body>
 
     <h1>Todo</h1>
+	
     <hr />
+
+	<p>
+        Welcome, {{ user }}. <a href="{% url 'logout' %}">Log out</a>
+    </p>
+
+    <hr>
 
     <ul>
     	{% for todo in todos %}
