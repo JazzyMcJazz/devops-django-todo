@@ -13,12 +13,13 @@
 
     <ul>
     	{% for todo in todos %}
-    	<li>
+    	<li id="todo_{{todo.pk}}">
     		({{ todo.pk }}): {{ todo.text }}
     		<span
-				data-hx-delete="{% url 'todo:todos_pk' todo.pk %}"
-				data-hx-trigger="click"
-				data-hx-target="body"
+				hx-delete="{% url 'todo:todos_pk' todo.pk %}"
+				hx-trigger="click"
+				hx-swap="outerHTML"
+				hx-target="closest li"
 	    	>
 	    		X
    			</span>
@@ -28,7 +29,7 @@
 
     <hr />
 
-    <form method="POST" actions"{% url 'todo:todos' %}>
+    <form method="POST" actions="{% url 'todo:todos' %}">
 		{% csrf_token %}
 		{{ todo_form }}
 		<button>Submit</button>
