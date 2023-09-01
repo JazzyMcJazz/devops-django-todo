@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://unpkg.com/htmx.org@1.9.3" integrity="sha384-lVb3Rd/Ca0AxaoZg5sACe8FJKF0tnUgR2Kd7ehUOG5GCcROv5uBIZsOqovBAcWua" crossorigin="anonymous"></script>
+    <title>Todo</title>
+</head>
+<body>
+
+    <h1>Todo</h1>
+    <hr />
+
+    <ul>
+    	{% for todo in todos %}
+    	<li>
+    		({{ todo.pk }}): {{ todo.text }}
+    		<span
+				data-hx-delete="{% url 'todo:todos_pk' todo.pk %}"
+				data-hx-trigger="click"
+				data-hx-target="body"
+	    	>
+	    		X
+   			</span>
+   		</li>
+    	{% endfor %}
+    </ul>
+
+    <hr />
+
+    <form method="POST" actions"{% url 'todo:todos' %}>
+		{% csrf_token %}
+		{{ todo_form }}
+		<button>Submit</button>
+    </form>
+
+    
+	<script>
+        document.body.addEventListener('htmx:configRequest', (event) => {
+            event.detail.headers['X-CSRFToken'] = '{{ csrf_token }}';
+        })
+    </script>
+</body>
+</html>
