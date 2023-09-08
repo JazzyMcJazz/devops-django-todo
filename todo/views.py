@@ -7,15 +7,11 @@ from todo.forms import TodoForm
 
 
 def index(request):
-    if request.user.is_authenticated:
-        return HttpResponseRedirect(reverse('todo:todos'))
-    else:
-        return HttpResponseRedirect('/accounts/login')
-
+    return HttpResponseRedirect(reverse('todo:todos'))
+    
+    
+@login_required
 def todos(request, pk=None):
-    if not request.user.is_authenticated:
-        return HttpResponseRedirect('/accounts/login')
-
     todo_form = TodoForm()
 
     if request.method == 'POST':
@@ -24,14 +20,13 @@ def todos(request, pk=None):
             todo_form.instance.user = request.user
             todo_form.save()
             todo_form = None
-            return HttpResponseRedirect(reverse('todo:todos'))
 
     if request.method == 'DELETE':
         todo = get_object_or_404(Todo, pk=pk)
         if todo.user == request.user:
             todo.delete()
         else:
-            return PermissionDenied
+            raise PermissionDenied("This is not your todo!")
         context = { 'todos': Todo.objects.all(), 'todo_form': todo_form }
         return render(request, 'todo/snippets/empty.html', context)
 
@@ -40,4 +35,5 @@ def todos(request, pk=None):
 
     todos = Todo.objects.filter(user=request.user)
     context = { 'todos': todos, 'todo_form': todo_form }
+
     return render(request, 'todo/index.html', context)
