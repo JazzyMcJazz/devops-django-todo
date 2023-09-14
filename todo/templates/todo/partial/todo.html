@@ -1,0 +1,24 @@
+<span>
+    {{ todo.text }}
+    {% if todo.description != None %}
+    ({{ todo.description }})
+{% endif %}
+</span>
+<span
+    hx-get="{% url 'todo:todos_edit_form' todo.pk %}"
+    hx-trigger="click"
+    hx-swap="innerHTML"
+    hx-target="closest .text"
+    style="cursor: pointer;"
+>
+    ✏️
+</span>
+<span
+    hx-delete="{% url 'todo:todos_pk' todo.pk %}"
+    hx-trigger="click"
+    hx-swap="outerHTML"
+    hx-target="closest li"
+    style="cursor: pointer;"
+>
+    ❌
+</span>

@@ -8,15 +8,15 @@
     <body>
         <h1>Account</h1>
         <hr>
-
-        <h2>Login</h2>
-        <form action="{% url 'login' %}" method="post">
+    
+        <h2>Registration</h2>
+        <form action="{% url 'authentication:register' %}" method="post">
             {% csrf_token %}
             {{ form }}
             <button>Log In</button>
         </form>
+
         <hr>
-    
-        <p>Don't have an account? Register <a href="{% url 'authentication:register' %}">here</a></p>
+        <p>Already have an account? <a href="/accounts/login">Login</a></p>
     </body>
 </html>

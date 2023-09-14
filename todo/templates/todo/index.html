@@ -19,16 +19,10 @@
     <ul>
     	{% for todo in todos %}
     	<li id="todo_{{todo.pk}}">
-    		({{ todo.pk }}): {{ todo.text }}
-    		<span
-				hx-delete="{% url 'todo:todos_pk' todo.pk %}"
-				hx-trigger="click"
-				hx-swap="outerHTML"
-				hx-target="closest li"
-                style="cursor: pointer;"
-	    	>
-                ❌
-   			</span>
+    		<span>({{ todo.pk }}):</span> 
+            <span class="text">
+                {% include 'todo/partial/todo.html' %}
+            </span>
    		</li>
     	{% endfor %}
     </ul>
@@ -45,7 +39,7 @@
 	<script>
         document.body.addEventListener('htmx:configRequest', (event) => {
             event.detail.headers['X-CSRFToken'] = '{{ csrf_token }}';
-        })
+        });
     </script>
 </body>
 

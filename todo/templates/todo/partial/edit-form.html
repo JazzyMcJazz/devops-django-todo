@@ -1,0 +1,10 @@
+<form
+    hx-patch="{% url 'todo:todos_pk' pk %}"
+    hx-swap="outerHTML"
+    hx-target="this"
+    style="display: inline;"
+>
+    {% csrf_token %}
+    {{ edit_form }}
+    <button>💾</button>
+</form>
